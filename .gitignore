@@ -6,32 +6,7 @@
 /build/
 /nbproject/
 /private/
-/Written Assets/
 /*.dll
 /*.dylib
 /*.so
 
-/dist/
-/build/
-/bin/
-/netbeans/
-/.classpath
-/.project
-/.settings
-/local.properties
-*.dll
-*.so
-*.jnilib
-*.dylib
-*.iml
-*.jtxt
-.gradletasknamecache
-.DS_Store
-/buildMaven.bat
-/private
-.travis.yml
-appveyor.yml
-javadoc_deploy
-javadoc_deploy.pub
-!.vscode/settings.json
-!.vscode/JME_style.xml
