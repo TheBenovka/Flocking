@@ -1,12 +1,3 @@
 # Compiled class file
-*.class
-/.gradle/
-/.idea/
-/.nb-gradle/
-/build/
 /nbproject/
 /private/
-/*.dll
-/*.dylib
-/*.so
-
