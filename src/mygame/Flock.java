@@ -24,11 +24,66 @@ public class Flock {
     private InstancedNode instancedNode;
     private List<Boid> boids;
     
-    /**
-     * This Method calculates the cohesion of each Boid
-     */
+    private Vector3f centroid;
     
+    /**
+     * MADE BY BENI!
+     * This method calculates the centroid of the flock.
+     * Each Boid vector will be added to a vector 
+     * then divided by the count of Boid.
+     */
+    public void calcNextCentroid() {
+        Vector3f vecSum = new Vector3f(0f,0f,0f);
+        for (Boid boid : boids) {
+            vecSum.add(boid.position);
+        }
+        centroid = vecSum.divide(boids.size()); 
+    }
 
+    /**
+     * MADE BY BENI!
+     * This method calculates the direction vector to the
+     * centroid of each boid
+     * # Maybe later testing if there is a performance dif.
+     */
+    public void calcITBoids() {
+        //boids.forEach(n -> n.dToCentroid.set(centroid.subtract(n.position)));
+        // Is the same!
+        for (Boid boid: boids) {
+            boid.dToCentroid.set(centroid.subtract(boid.position));
+        }
+    }
+    
+    /**
+     * SELFMADE!
+     * This method sets the @boid.dToNeighbnour 
+     */
+    public void setDirectionFromNearestNeighbour() {
+        for (Boid boid : boids) {
+            Vector3f shortestDistance = new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+            for (Boid nearest : boids) {
+                if (nearest != boid) {
+                    if (shortestDistance.length() > (boid.position.subtract(nearest.position)).length()) {
+                        shortestDistance = boid.position.subtract(nearest.position);
+                    }
+                }
+            }
+            boid.dFromNeighbour = shortestDistance;
+        }
+    }
+    
+    /**
+     * SELFMADE!
+     * This method...
+     */
+    public void setSeperation() {
+        setDirectionFromNearestNeighbour();
+        for (Boid boid : boids) {
+            boid.seperation = boid.dFromNeighbour.divide(boid.dFromNeighbour.lengthSquared());
+        }
+    }
+    
+    
     
     /**
      * 
@@ -38,7 +93,6 @@ public class Flock {
      * @param boidMaterial the material controls the visual appearance (e. g. color or reflective behavior) of the surface of the boid model.
      */
     public Flock( Node scene, int boidCount, Mesh boidMesh, Material boidMaterial ) {
-        
         this.boidMesh = boidMesh;
         this.boidMaterial = boidMaterial;
         this.scene = scene;
@@ -58,12 +112,19 @@ public class Flock {
      */
     public void update(float dtime)
     {
+        calcNextCentroid();
+        calcITBoids();
+        setSeperation();
+        boids.forEach(boid-> {
+            
+        });
+        
         for( Boid boid : boids )
         {
             // netAccelaration should be a linear combination of
             // separation,
             // alignment, 
-            // cohesion, and
+            // cohes<ion, and
             // further forces..
             Vector3f netAccelarationForBoid = boid.position.negate(); // accelaration=boid.position.negate()) means that there is a permanent acceleration towards the origin of the coordinate system (0,0,0) which decreases if the distance of the boid to origin decreases.
 

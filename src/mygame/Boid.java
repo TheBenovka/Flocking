@@ -19,7 +19,17 @@ public class Boid {
     public Vector3f position;
     public Vector3f velocity;
     private Geometry geometry;
-
+    
+    /**
+     * SELFMADE!
+     * direction vector to the centroid
+     */
+    public Vector3f dToCentroid;
+    public Vector3f dFromNeighbour;
+    public Vector3f seperation;
+    public Vector3f cohesion;
+    
+    
     /**
      * The constructor instantiates a Boid a random position p within -spawnVolumeSize/2 <= p <= spawnVolumeSize/2.
      * The initial velocity is set to random 3D-vector with a magnitude of one.
@@ -27,6 +37,7 @@ public class Boid {
      */
     public Boid(Geometry geom) {
         this.geometry = geom;
+        dToCentroid = new Vector3f();
         velocity = new Vector3f();
         position = new Vector3f();
         position.x = (FastMath.nextRandomFloat() -0.5f) * spawnVolumeSize;
@@ -51,7 +62,7 @@ public class Boid {
         velocity = velocity.add(accelaration.mult(dtime));
         position = position.add(velocity.mult(dtime));        
         //update scene instance
-        geometry.setLocalTranslation(position);
-        geometry.lookAt(position.add(velocity), Vector3f.UNIT_Y);
+        geometry.setLocalTranslation(position.add(seperation));
+        geometry.lookAt(position.add(velocity), dToCentroid);
     }
 }
