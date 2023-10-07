@@ -21,8 +21,11 @@ public class Boid {
     private Geometry geometry;
     
     /**
-     * SELFMADE!
-     * cohesion -> direction vector to the centroid
+     * MADE BY BENI!
+     * cohesion -> force to the centroid
+     * seperation -> force to not collide with other boids
+     * alignment -> force to fly to the same direction as the boids in the field of view
+     * a -> the combined force (a only for testing)
      */
     public Vector3f dFromNeighbour;
     public Vector3f seperation;
@@ -51,7 +54,7 @@ public class Boid {
     }
         
     private void setA() {
-        a = alignement.add(cohesion.add(seperation));
+        a = alignement.mult(2f).add(cohesion.mult(2f).add(seperation.mult(1f)));
     }
     
     /**
@@ -59,8 +62,7 @@ public class Boid {
      * @param accelaration The net accelaration of all forces that influence the boid
      * @param dtime The elapsed time in seconds between two consecutive frames
      */
-    public void update(Vector3f accelaration, float dtime)
-    {
+    public void update(Vector3f accelaration, float dtime) {
         setA();
         //integrate velocity: v = v + a*dt; keep in mind: [m/s^2 * s = m/s]
         //integrate position: p = p + v*dt; keep in mind: [m/s * s = m]

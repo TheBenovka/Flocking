@@ -33,7 +33,7 @@ public class Flock {
      * STUPID IDEA FOR LATER: Getting min and max dist. from boids to center
      * and calculate the radius
      */
-    private final static float radius = 20;
+    private final static float radius = 10;
     
     /**
      * MADE BY BENI!
@@ -44,7 +44,7 @@ public class Flock {
      * 60° for 1 
      * 90° for 0
      */
-    private final static float theta = 60; 
+    private final static float theta = 90; 
     
     /**
      * MADE BY BENI!
@@ -151,6 +151,7 @@ public class Flock {
 
     /**
      * MADE BY BENI!
+     * This method sets the alignement for a boid
      * @param boid 
      */
     private void setBoidAlignement(Boid boid) {
@@ -160,7 +161,7 @@ public class Flock {
         for (Boid boidInField : boidsInFieldOfView) {
             // left part withouht 1/..
             Vector3f direction = boidInField.position.subtract(boid.position);
-            weighting = 1 / direction.length();
+            weighting += 1 / direction.length();
             // right part
             alignment.add(boidInField.position.mult(1 / direction.length())); 
         }
@@ -169,7 +170,7 @@ public class Flock {
     
     /**
      * MADE BY BENI! 
-     * This method...
+     * This method sets all kind of forces for each Boid Object in Flock
      */
     private void calcForceForEachBoid() {
         calcNextCentroid();
@@ -204,11 +205,9 @@ public class Flock {
      * The update method should be called once per frame
      * @param dtime determines the elapsed time in seconds (floating-point) between two consecutive frames
      */
-    public void update(float dtime)
-    {
+    public void update(float dtime) {
         calcForceForEachBoid();
-        for( Boid boid : boids )
-        {
+        for( Boid boid : boids ) {
             // netAccelaration should be a linear combination of
             // separation,
             // alignment, 
@@ -225,8 +224,7 @@ public class Flock {
      * @param boidCount The number of boids to create
      * @return A list of Boid objects. For each object a corresponding instanced geometry is added to the scene graph (Boid.geometry)
      */ 
-    private List<Boid> createBoids(int boidCount)
-    {
+    private List<Boid> createBoids(int boidCount) {
         List<Boid> boidList = new ArrayList<Boid>();
         
         for(int i=0; i<boidCount; ++i)
@@ -234,17 +232,14 @@ public class Flock {
             Boid newBoid = new Boid(createInstance());
             boidList.add(newBoid);
         }
-        
         return boidList;
-        
     }
     
     /**
      * Creates an instanced copy of boidMesh using boidMaterial with individual geometric transform
      * @return The instanced geometry attached to the scene graph
      */
-    private Geometry createInstance()
-    {
+    private Geometry createInstance() {
         Geometry geometry = new Geometry("boid", boidMesh);
         geometry.setMaterial(boidMaterial);
         instancedNode.attachChild(geometry);
