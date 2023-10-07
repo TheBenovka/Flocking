@@ -14,7 +14,7 @@ import com.jme3.scene.shape.Box;
 public class Main extends SimpleApplication {
 
     private Flock flock;
-    private final int boidCount = 5;
+    private final int boidCount = 555;
     
     public static void main(String[] args) {
         Main app = new Main();

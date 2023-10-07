@@ -22,13 +22,13 @@ public class Boid {
     
     /**
      * SELFMADE!
-     * direction vector to the centroid
+     * cohesion -> direction vector to the centroid
      */
-    public Vector3f dToCentroid;
     public Vector3f dFromNeighbour;
     public Vector3f seperation;
     public Vector3f cohesion;
-    
+    public Vector3f alignement;
+    private Vector3f a;
     
     /**
      * The constructor instantiates a Boid a random position p within -spawnVolumeSize/2 <= p <= spawnVolumeSize/2.
@@ -37,7 +37,8 @@ public class Boid {
      */
     public Boid(Geometry geom) {
         this.geometry = geom;
-        dToCentroid = new Vector3f();
+        seperation = new Vector3f();
+        cohesion = new Vector3f();
         velocity = new Vector3f();
         position = new Vector3f();
         position.x = (FastMath.nextRandomFloat() -0.5f) * spawnVolumeSize;
@@ -48,7 +49,10 @@ public class Boid {
         velocity.z = (FastMath.nextRandomFloat() -0.5f);
         velocity.normalizeLocal();
     }
-    
+        
+    private void setA() {
+        a = alignement.add(cohesion.add(seperation));
+    }
     
     /**
      * update calculates the new position of the Boid based on its current position and velocity influenced by accelaration. update should be called once per frame
@@ -57,12 +61,13 @@ public class Boid {
      */
     public void update(Vector3f accelaration, float dtime)
     {
+        setA();
         //integrate velocity: v = v + a*dt; keep in mind: [m/s^2 * s = m/s]
         //integrate position: p = p + v*dt; keep in mind: [m/s * s = m]
         velocity = velocity.add(accelaration.mult(dtime));
         position = position.add(velocity.mult(dtime));        
         //update scene instance
-        geometry.setLocalTranslation(position.add(seperation));
-        geometry.lookAt(position.add(velocity), dToCentroid);
+        geometry.setLocalTranslation(position);
+        geometry.lookAt(position.add(velocity), Vector3f.UNIT_Y);
     }
 }
