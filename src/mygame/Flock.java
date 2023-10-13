@@ -33,7 +33,7 @@ public class Flock {
      * STUPID IDEA FOR LATER: Getting min and max dist. from boids to center
      * and calculate the radius
      */
-    private final static float radius = 10;
+    private final static float radius = 15;
     
     /**
      * MADE BY BENI!
@@ -67,19 +67,21 @@ public class Flock {
     private void calcNextCentroid() {
         Vector3f vecSum = new Vector3f();
         for (Boid boid : boids) {
-            vecSum.add(boid.position);
+            vecSum = vecSum.add(boid.position);
+            
         }
-        centroid = vecSum.divide(boids.size()); 
+        centroid = vecSum.divide(boids.size());
+        
     }
 
     /**
      * MADE BY BENI!
      * This method calculates the direction vector to the
      * centroid of each boid
-     * # Maybe later testing if there is a performance dif.
      */
     private void setBoidCohesion(Boid boid) {
-        boid.cohesion.set(centroid.subtract(boid.position));
+        boid.cohesion = centroid.subtract(boid.position);
+        //System.out.println(boid.cohesion);
     }
     
     /**
@@ -163,7 +165,7 @@ public class Flock {
             Vector3f direction = boidInField.position.subtract(boid.position);
             weighting += 1 / direction.length();
             // right part
-            alignment.add(boidInField.position.mult(1 / direction.length())); 
+            alignment = alignment.add(boidInField.position.mult(1 / direction.length())); 
         }
         boid.alignement = alignment.mult(1/weighting);
     }
@@ -181,7 +183,7 @@ public class Flock {
         });
     }
     
-        /**
+     /**
      * @param scene a reference to the root node of the scene graph (e. g. rootNode from SimpleApplication).
      * @param boidCount number of boids to create.
      * @param boidMesh reference mesh (geometric model) which should be used for a single boid.
@@ -206,15 +208,26 @@ public class Flock {
      * @param dtime determines the elapsed time in seconds (floating-point) between two consecutive frames
      */
     public void update(float dtime) {
-        calcForceForEachBoid();
+        //Vector3f a = setNextCebtroid();
+        
+        calcNextCentroid();
+        //calcForceForEachBoid();
         for( Boid boid : boids ) {
             // netAccelaration should be a linear combination of
             // separation,
             // alignment, 
             // cohes<ion, and
             // further forces..
-            Vector3f netAccelarationForBoid = boid.position.negate(); // accelaration=boid.position.negate()) means that there is a permanent acceleration towards the origin of the coordinate system (0,0,0) which decreases if the distance of the boid to origin decreases.
-
+            
+            //Vector3f cohesion = getBoidCohesion(boid);
+            setBoidCohesion(boid);  
+            setBoidSeperation(boid);
+            //setBoidAlignement(boid);
+            //boid.setA();
+            //Vector3f netAccelarationForBoid = boid.position.negate(); // accelaration=boid.position.negate()) means that there is a permanent acceleration towards the origin of the coordinate system (0,0,0) which decreases if the distance of the boid to origin decreases.
+            
+            Vector3f netAccelarationForBoid = boid.alignement.add(boid.seperation).add(boid.cohesion.mult(1f));
+            //System.err.println(netAccelarationForBoid);
             boid.update(netAccelarationForBoid, dtime); 
         }
     }
@@ -227,8 +240,7 @@ public class Flock {
     private List<Boid> createBoids(int boidCount) {
         List<Boid> boidList = new ArrayList<Boid>();
         
-        for(int i=0; i<boidCount; ++i)
-        {
+        for(int i=0; i<boidCount; ++i) {
             Boid newBoid = new Boid(createInstance());
             boidList.add(newBoid);
         }

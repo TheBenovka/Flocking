@@ -31,7 +31,7 @@ public class Boid {
     public Vector3f seperation;
     public Vector3f cohesion;
     public Vector3f alignement;
-    private Vector3f a;
+    public Vector3f a;
     
     /**
      * The constructor instantiates a Boid a random position p within -spawnVolumeSize/2 <= p <= spawnVolumeSize/2.
@@ -40,6 +40,8 @@ public class Boid {
      */
     public Boid(Geometry geom) {
         this.geometry = geom;
+        a = new Vector3f();
+        alignement = new Vector3f();
         seperation = new Vector3f();
         cohesion = new Vector3f();
         velocity = new Vector3f();
@@ -52,10 +54,6 @@ public class Boid {
         velocity.z = (FastMath.nextRandomFloat() -0.5f);
         velocity.normalizeLocal();
     }
-        
-    private void setA() {
-        a = alignement.mult(2f).add(cohesion.mult(2f).add(seperation.mult(1f)));
-    }
     
     /**
      * update calculates the new position of the Boid based on its current position and velocity influenced by accelaration. update should be called once per frame
@@ -63,7 +61,6 @@ public class Boid {
      * @param dtime The elapsed time in seconds between two consecutive frames
      */
     public void update(Vector3f accelaration, float dtime) {
-        setA();
         //integrate velocity: v = v + a*dt; keep in mind: [m/s^2 * s = m/s]
         //integrate position: p = p + v*dt; keep in mind: [m/s * s = m]
         velocity = velocity.add(accelaration.mult(dtime));
