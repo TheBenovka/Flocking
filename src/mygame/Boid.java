@@ -40,6 +40,7 @@ public class Boid {
      */
     public Boid(Geometry geom) {
         this.geometry = geom;
+        a = new Vector3f();
         seperation = new Vector3f();
         cohesion = new Vector3f();
         velocity = new Vector3f();
@@ -54,7 +55,7 @@ public class Boid {
     }
         
     private void setA() {
-        a = alignement.mult(2f).add(cohesion.mult(2f).add(seperation.mult(1f)));
+        a = alignement.mult(0.5f).add(cohesion.mult(1f).add(seperation.mult(0.5f)));
     }
     
     /**

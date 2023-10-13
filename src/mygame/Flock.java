@@ -33,7 +33,7 @@ public class Flock {
      * STUPID IDEA FOR LATER: Getting min and max dist. from boids to center
      * and calculate the radius
      */
-    private final static float radius = 10;
+    private final float radius = 10;
     
     /**
      * MADE BY BENI!
@@ -44,7 +44,7 @@ public class Flock {
      * 60° for 1 
      * 90° for 0
      */
-    private final static float theta = 90; 
+    private final float theta = 60; 
     
     /**
      * MADE BY BENI!
@@ -56,7 +56,7 @@ public class Flock {
      * cos(60°) = 1/2
      * cos(90°) = 0
      */
-    private final static float angle = (float) Math.cos(theta/2);
+    private final float angle = (float) Math.cos(theta/2);
     
     /**
      * MADE BY BENI!
@@ -67,7 +67,7 @@ public class Flock {
     private void calcNextCentroid() {
         Vector3f vecSum = new Vector3f();
         for (Boid boid : boids) {
-            vecSum.add(boid.position);
+            vecSum = vecSum.add(boid.position);
         }
         centroid = vecSum.divide(boids.size()); 
     }
@@ -79,7 +79,7 @@ public class Flock {
      * # Maybe later testing if there is a performance dif.
      */
     private void setBoidCohesion(Boid boid) {
-        boid.cohesion.set(centroid.subtract(boid.position));
+        boid.cohesion.set(centroid.subtract(boid.position)).normalize();
     }
     
     /**
@@ -104,7 +104,7 @@ public class Flock {
      */
     public void setBoidSeperation(Boid boid) {
         setBoidDirectionFromNearestNeighbour(boid);
-        boid.seperation = boid.dFromNeighbour.divide(boid.dFromNeighbour.lengthSquared());
+        boid.seperation = boid.dFromNeighbour.divide(boid.dFromNeighbour.lengthSquared()).normalize();
     }
     
     /**
@@ -145,9 +145,7 @@ public class Flock {
             }
         }
         return boidsInFieldOfView;
-    }
-    
-
+    }   
 
     /**
      * MADE BY BENI!
@@ -165,7 +163,7 @@ public class Flock {
             // right part
             alignment.add(boidInField.position.mult(1 / direction.length())); 
         }
-        boid.alignement = alignment.mult(1/weighting);
+        boid.alignement = alignment.mult(1/weighting).normalize();
     }
     
     /**
