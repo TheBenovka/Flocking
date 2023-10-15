@@ -25,7 +25,7 @@ public class Flock {
     private List<Boid> boids;
     
     private Vector3f centroid;
-    
+    private float[] boidsV2;
     
     /**
      * MADE BY BENI!
@@ -44,7 +44,7 @@ public class Flock {
      * 60° for 1 
      * 90° for 0
      */
-    private final float theta = 60; 
+    private final float theta = 120; 
     
     /**
      * MADE BY BENI!
@@ -64,13 +64,30 @@ public class Flock {
      * Each Boid vector will be added to a vector 
      * then divided by the count of Boid.
      */
+    
+    private float[] calcNextCentroidV2() {
+        float[] vecSum = new float[3];
+        for (int i = 0; i < boidsV2.length/3; ++i) {
+            vecSum[0] += boidsV2[i*3]; //0-3-6-9 //x
+            vecSum[1] += boidsV2[i*3+1]; //1-4-7-10 //y
+            vecSum[2] += boidsV2[i*3+2]; //2-5-8-11 //y
+        }
+            vecSum[0] /= (boidsV2.length/3);
+            vecSum[1] /= (boidsV2.length/3);
+            vecSum[2] /= (boidsV2.length/3);
+        return vecSum;
+    }
+    
+    /**
+     * MADE BY BENI!
+     * 
+     */
     private void calcNextCentroid() {
         Vector3f vecSum = new Vector3f();
         for (Boid boid : boids) {
             vecSum = vecSum.add(boid.position);
         }
         centroid = vecSum.divide(boids.size());
-        
     }
 
     /**
@@ -80,12 +97,12 @@ public class Flock {
      */
     private void setBoidCohesion(Boid boid) {
         boid.cohesion = centroid.subtract(boid.position);
-        //System.out.println(boid.cohesion);
     }
     
     /**
      * MADE BY BENI!
-     * This method sets the @boid.dToNeighbnour 
+     * This method sets the @boid.dToNeighbnour the driection vector from
+     * the nieghbour to the boid position
      */
     public void setBoidDirectionFromNearestNeighbour(Boid boid) {
         Vector3f shortestDistance = new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
@@ -127,13 +144,13 @@ public class Flock {
     private boolean isBoidInAngle(Boid startBoid, Boid targetBoid) {
         Vector3f direction = targetBoid.position.subtract(startBoid.position);
         float actAngle = direction.angleBetween(targetBoid.position);   
-        return actAngle <= angle;
+        return actAngle >= angle;
     }
     
     /**
      * MADE BY BENI!
      * @param startBoid
-     * @return 
+     * @return a list of boid in the field of view of the startBoid
      */
     public ArrayList getBoidsInFieldOfView(Boid startBoid) {
         ArrayList<Boid> boidsInFieldOfView = new ArrayList<>();
@@ -162,7 +179,22 @@ public class Flock {
             Vector3f direction = boidInField.position.subtract(boid.position);
             weighting += 1 / direction.lengthSquared();
             // right part
-            alignment = alignment.add(boidInField.position.mult(1 / direction.lengthSquared())); 
+            alignment = alignment.add(boidInField.position.mult(1 / direction.lengthSquared()));
+            
+        }
+        boid.alignement = alignment.mult(1/weighting).mult(boid.velocity);
+    }
+    
+        private void setBoidAlignementV2(Boid boid) {
+        ArrayList<Boid> boidsInFieldOfView = getBoidsInFieldOfView(boid);
+        float weighting = 0f;
+        Vector3f alignment = new Vector3f();
+        for (Boid boidInField : boidsInFieldOfView) {
+            // weighting vector part withouht 1/..
+            Vector3f direction = boidInField.position.subtract(boid.position);
+            weighting += 1 / direction.lengthSquared();
+            // right part            
+            alignment = alignment.add(boidInField.velocity.normalize().mult(1 / direction.lengthSquared()));    
         }
         boid.alignement = alignment.mult(1/weighting);
     }
@@ -178,6 +210,8 @@ public class Flock {
         this.boidMaterial = boidMaterial;
         this.scene = scene;
         
+        boidsV2 = new float[boidCount*3];
+        
         this.boidMaterial.setBoolean("UseInstancing", true);
         this.instancedNode = new InstancedNode("instanced_node");
         this.scene.attachChild(instancedNode);
@@ -187,15 +221,20 @@ public class Flock {
         instancedNode.instance();
     }
     
+    private Vector3f getForce(Vector3f c, Vector3f s, Vector3f a, Boid boid) {
+        a = a.mult(7f);
+        s = s.mult(5f);
+        c = c.mult(10f);
+        // collision force
+        return (a.add(c).add(s)).normalize().mult(2f);
+    }
+    
     /**
      * The update method should be called once per frame
      * @param dtime determines the elapsed time in seconds (floating-point) between two consecutive frames
      */
     public void update(float dtime) {
-        //Vector3f a = setNextCebtroid();
-        
         calcNextCentroid();
-        //calcForceForEachBoid();
         for( Boid boid : boids ) {
             // netAccelaration should be a linear combination of
             // separation,
@@ -203,18 +242,18 @@ public class Flock {
             // cohes<ion, and
             // further forces..
             
-            //Vector3f cohesion = getBoidCohesion(boid);
             setBoidCohesion(boid);  
             setBoidSeperation(boid);
-            setBoidAlignement(boid);
-            //boid.setA();
+            setBoidAlignementV2(boid);
             //Vector3f netAccelarationForBoid = boid.position.negate(); // accelaration=boid.position.negate()) means that there is a permanent acceleration towards the origin of the coordinate system (0,0,0) which decreases if the distance of the boid to origin decreases.
-            
-            Vector3f netAccelarationForBoid = boid.alignement.add(boid.seperation).add(boid.cohesion.mult(1f));
-            //System.err.println(netAccelarationForBoid);
-            boid.update(netAccelarationForBoid, dtime); 
+           
+            Vector3f netAccelarationForBoid = getForce(boid.cohesion, boid.seperation, boid.alignement, boid);
+ 
+            boid.update(netAccelarationForBoid.mult(0.5f), dtime); 
         }
     }
+    
+    
     
     /**
      * Creates a list of Boid objects and adds corresponding instanced models (based on boidMesh) to the scene graph
