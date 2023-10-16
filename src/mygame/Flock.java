@@ -63,8 +63,8 @@ public class Flock {
      * This method calculates and sets the centroid of the flock.
      * Each Boid vector will be added to a vector 
      * then divided by the count of Boid.
+     * A second version could be used for optimizing.
      */
-    
     private float[] calcNextCentroidV2() {
         float[] vecSum = new float[3];
         for (int i = 0; i < boidsV2.length/3; ++i) {
@@ -80,7 +80,9 @@ public class Flock {
     
     /**
      * MADE BY BENI!
-     * 
+     * This method calculates and sets the centroid of the flock.
+     * Each Boid vector will be added to a vector 
+     * then divided by the count of Boid.
      */
     private void calcNextCentroid() {
         Vector3f vecSum = new Vector3f();
@@ -93,7 +95,7 @@ public class Flock {
     /**
      * MADE BY BENI!
      * This method calculates the direction vector to the
-     * centroid of each boid
+     * centroid from the boid.
      */
     private void setBoidCohesion(Boid boid) {
         boid.cohesion = centroid.subtract(boid.position);
@@ -101,8 +103,9 @@ public class Flock {
     
     /**
      * MADE BY BENI!
-     * This method sets the @boid.dToNeighbnour the driection vector from
-     * the nieghbour to the boid position
+     * This method sets the @boid.d(irection)FromNeighbnour the driection vector from
+     * the neighbour to the boid position. To calculate it the nearest neighbour is needed therefore
+     * we search for it. At the moment O(n²), but with the k-d tree or the OcTree it can be reduced to O(n log(n)).
      */
     public void setBoidDirectionFromNearestNeighbour(Boid boid) {
         Vector3f shortestDistance = new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
@@ -118,7 +121,8 @@ public class Flock {
     
     /**
      * MADE BY BENI!
-     * This method...
+     * This method sets the separation object variable for a boid.
+     * It's calculated from the direction from the nearest neighbour to the Boid and multiplicated with a weighting.
      */
     public void setBoidSeperation(Boid boid) {
         setBoidDirectionFromNearestNeighbour(boid);
@@ -127,9 +131,9 @@ public class Flock {
     
     /**
      * MADE BY BENI!
-     * @param startBoid
-     * @param targetBoid
-     * @return 
+     * @param startBoid 
+     * @param targetBoid 
+     * @return true if the distance from the boid to another is in the defined radius, if not return false.
      */
     private boolean isBoidInRadius(Boid startBoid, Boid targetBoid) {
         return targetBoid.position.subtract(startBoid.position).length() <= radius;
@@ -139,7 +143,7 @@ public class Flock {
      * MADE BY BENI!
      * @param startBoid
      * @param targetBoid
-     * @return 
+     * @return true if the both boid vectors are spanning a smaller angle than the defined, else return false. 
      */
     private boolean isBoidInAngle(Boid startBoid, Boid targetBoid) {
         Vector3f direction = targetBoid.position.subtract(startBoid.position);
@@ -149,8 +153,9 @@ public class Flock {
     
     /**
      * MADE BY BENI!
-     * @param startBoid
-     * @return a list of boid in the field of view of the startBoid
+     * This method creates an ArrayList with Boids which are in the defined field of view of the Boid.
+     * @param startBoid 
+     * @return the reference of the created ArrayList FOV of the boid.
      */
     public ArrayList getBoidsInFieldOfView(Boid startBoid) {
         ArrayList<Boid> boidsInFieldOfView = new ArrayList<>();
@@ -167,7 +172,8 @@ public class Flock {
 
     /**
      * MADE BY BENI!
-     * This method sets the alignement for a boid
+     * This method sets the alignement for a boid.
+     * OBSOLETE!
      * @param boid 
      */
     private void setBoidAlignement(Boid boid) {
@@ -185,7 +191,18 @@ public class Flock {
         boid.alignement = alignment.mult(1/weighting).mult(boid.velocity);
     }
     
-        private void setBoidAlignementV2(Boid boid) {
+    /**
+     * MADE BY BENI!
+     * This method sets the alignement for a boid.
+     * But to set the alignement first an ArrayList will be created with the boids in the
+     * field of view from the actual boid.
+     * The next Task is to calculate the direction, which will be used in both sums.
+     * After it the weighting and the 'alignemnet' (without the last weighting) will be calculated with the velocity of the boids
+     * in the FOV list.
+     * At last a second weighting will be multiplicated.
+     * @param boid 
+     */
+    private void setBoidAlignementV2(Boid boid) {
         ArrayList<Boid> boidsInFieldOfView = getBoidsInFieldOfView(boid);
         float weighting = 0f;
         Vector3f alignment = new Vector3f();
