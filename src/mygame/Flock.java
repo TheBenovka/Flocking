@@ -24,6 +24,7 @@ public class Flock {
     private InstancedNode instancedNode;
     private List<Boid> boids;
     
+    
     private Vector3f centroid;
     private float[] boidsV2;
     
@@ -169,27 +170,6 @@ public class Flock {
         }
         return boidsInFieldOfView;
     }   
-
-    /**
-     * MADE BY BENI!
-     * This method sets the alignement for a boid.
-     * OBSOLETE!
-     * @param boid 
-     */
-    private void setBoidAlignement(Boid boid) {
-        ArrayList<Boid> boidsInFieldOfView = getBoidsInFieldOfView(boid);
-        float weighting = 0f;
-        Vector3f alignment = new Vector3f();
-        for (Boid boidInField : boidsInFieldOfView) {
-            // weighting vector part withouht 1/..
-            Vector3f direction = boidInField.position.subtract(boid.position);
-            weighting += 1 / direction.lengthSquared();
-            // right part
-            alignment = alignment.add(boidInField.position.mult(1 / direction.lengthSquared()));
-            
-        }
-        boid.alignement = alignment.mult(1/weighting).mult(boid.velocity);
-    }
     
     /**
      * MADE BY BENI!
@@ -238,12 +218,20 @@ public class Flock {
         instancedNode.instance();
     }
     
+    /**
+     * MADE BY BENI!
+     * @param c - cohesion force of the boid
+     * @param s - separation force of the boid
+     * @param a - alignement force of the boid
+     * @param boid
+     * @return 
+     */
     private Vector3f getForce(Vector3f c, Vector3f s, Vector3f a, Boid boid) {
-        a = a.mult(7f);
-        s = s.mult(5f);
-        c = c.mult(10f);
+        a = a.mult(1f);
+        s = s.mult(10f);
+        c = c.mult(1f);
         // collision force
-        return (a.add(c).add(s)).normalize().mult(2f);
+        return (a.add(c).add(s)).mult(1f/10f);
     }
     
     /**
@@ -253,6 +241,7 @@ public class Flock {
     public void update(float dtime) {
         calcNextCentroid();
         for( Boid boid : boids ) {
+            
             // netAccelaration should be a linear combination of
             // separation,
             // alignment, 
@@ -262,8 +251,11 @@ public class Flock {
             setBoidCohesion(boid);  
             setBoidSeperation(boid);
             setBoidAlignementV2(boid);
-            //Vector3f netAccelarationForBoid = boid.position.negate(); // accelaration=boid.position.negate()) means that there is a permanent acceleration towards the origin of the coordinate system (0,0,0) which decreases if the distance of the boid to origin decreases.
-           
+
+            // Vector3f netAccelarationForBoid = boid.position.negate(); 
+            // accelaration=boid.position.negate()) means that there is a permanent acceleration towards the origin of the coordinate system (0,0,0) 
+            // which decreases if the distance of the boid to origin decreases.
+
             Vector3f netAccelarationForBoid = getForce(boid.cohesion, boid.seperation, boid.alignement, boid);
  
             boid.update(netAccelarationForBoid.mult(0.5f), dtime); 

@@ -11,10 +11,25 @@ import com.jme3.scene.shape.Box;
  * This is the Main Class of your Game. You should only do initialization here.
  */
 
+/**
+ * TASKS!
+ * TODO: Optimizaition: -> Search with OcTree, k-d Tree, Hashing 
+ *                      -> Multithreading
+ *                      -> Make the code with less Objects
+ * TODO: Aesthetic  -> Boid Models or Materials
+ *                  -> Scene Background
+ *                  -> Special Effects
+ * TODO: User Interface -> CPU Stats
+ *                      -> Time since start
+ *                      -> Boids count
+ *                      -> GPU (maybe)
+ * @author beni
+ */
+
 public class Main extends SimpleApplication {
 
     private Flock flock;
-    private final int boidCount = 1000;
+    private final int boidCount = 10;
     
     public static void main(String[] args) {
         Main app = new Main();
