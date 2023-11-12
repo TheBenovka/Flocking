@@ -5,6 +5,7 @@
  */
 package mygame;
 import com.jme3.material.Material;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
@@ -24,9 +25,10 @@ public class Flock {
     private InstancedNode instancedNode;
     private List<Boid> boids;
     
-    
+    private Vector3f maxVector = new Vector3f();
     private Vector3f centroid;
     private float[] boidsV2;
+    private int q = 0;
     
     /**
      * MADE BY BENI!
@@ -34,7 +36,7 @@ public class Flock {
      * STUPID IDEA FOR LATER: Getting min and max dist. from boids to center
      * and calculate the radius
      */
-    private final float radius = 10;
+    private final float radius = 1f;
 
     /**
      * MADE BY BENI!
@@ -184,6 +186,10 @@ public class Flock {
      */
     private void setBoidAlignementV2(Boid boid) {
         ArrayList<Boid> boidsInFieldOfView = getBoidsInFieldOfView(boid);
+        if (boidsInFieldOfView.isEmpty()) {
+            boid.alignement = Vector3f.ZERO;
+            return;
+        }
         float weighting = 0f;
         Vector3f alignment = new Vector3f();
         for (Boid boidInField : boidsInFieldOfView) {
@@ -228,10 +234,19 @@ public class Flock {
      */
     private Vector3f getForce(Vector3f c, Vector3f s, Vector3f a, Boid boid) {
         a = a.mult(1f);
-        s = s.mult(10f);
+        s = s.mult(0.2f);
         c = c.mult(1f);
         // collision force
-        return (a.add(c).add(s)).mult(1f/10f);
+        Vector3f d = new Vector3f();
+        if (boid.position.length() > 5){
+            //d = boid.position.mult(FastMath.pow((boid.position.length()-1f),11f)*(-0.000001f));
+        }
+        Vector3f fullForce = (a.add(c).add(s).add(d)).mult(10f/10f);
+        if (boid.position.length() > 10){
+            //d = boid.position.mult(FastMath.pow((boid.position.length()-1f),11f)*(-0.000001f));
+            fullForce = boid.position.negate();
+        }
+        return fullForce.length() > 3 ? fullForce.normalize().mult(3f) : fullForce;
     }
     
     /**
@@ -256,9 +271,18 @@ public class Flock {
             // accelaration=boid.position.negate()) means that there is a permanent acceleration towards the origin of the coordinate system (0,0,0) 
             // which decreases if the distance of the boid to origin decreases.
 
-            Vector3f netAccelarationForBoid = getForce(boid.cohesion, boid.seperation, boid.alignement, boid);
+            Vector3f netAccelarationForBoid = getForce(boid.cohesion,
+                    boid.seperation, boid.alignement, boid);
  
             boid.update(netAccelarationForBoid.mult(0.5f), dtime); 
+            if(boid.position.length() > maxVector.length()) {
+                maxVector = boid.position;
+            }
+            if(q % 200000 == 0) {
+                System.err.println(maxVector);
+                q = 0;
+            }
+            q++;
         }
     }
     
@@ -271,11 +295,29 @@ public class Flock {
      */ 
     private List<Boid> createBoids(int boidCount) {
         List<Boid> boidList = new ArrayList<Boid>();
-        
+        Boid[] boids = new Boid[boidCount];
         for(int i=0; i<boidCount; ++i) {
             Boid newBoid = new Boid(createInstance());
             boidList.add(newBoid);
+            boids[i] = boidList.get(i);
         }
+        KdTree kt = new KdTree(boids);
+        Boid a = new Boid(createInstance());
+        Boid boidTest = null;
+        Vector3f shortestDistance = new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+        for (Boid nearest : boids) {
+            if (nearest != a) {
+                if (shortestDistance.length() > (a.position.distance(nearest.position))) {
+                    shortestDistance = a.position.subtract(nearest.position);
+                    boidTest = nearest; 
+                }
+            }
+        boidList.get(0).dFromNeighbour = shortestDistance;
+        }
+        
+        kt.nearestNeighbor(a);
+        System.err.println("\n\n " + kt.nearestNeighbor(a) +
+                " \n" + boidTest.position.toString() + "\n" + a.position +"\n");
         return boidList;
     }
     
