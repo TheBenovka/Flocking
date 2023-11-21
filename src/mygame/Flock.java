@@ -24,7 +24,7 @@ public class Flock {
     private Node scene;
     private InstancedNode instancedNode;
     private List<Boid> boids;
-    
+    private Boid[] boidsV3;
     private Vector3f maxVector = new Vector3f();
     private Vector3f centroid;
     private float[] boidsV2;
@@ -213,14 +213,38 @@ public class Flock {
         this.boidMaterial = boidMaterial;
         this.scene = scene;
         
-        boidsV2 = new float[boidCount*3];
+        //boidsV2 = new float[boidCount*3];
         
         this.boidMaterial.setBoolean("UseInstancing", true);
         this.instancedNode = new InstancedNode("instanced_node");
         this.scene.attachChild(instancedNode);
-        
+        // Garbage
+        Boid a = new Boid(createInstance());
         boids = createBoids(boidCount);
-        
+        KdTree kt = new KdTree(boidsV3);
+        ArrayList<Boid> lb = new ArrayList<>();
+        for (Boid b : boids) {
+            boolean t = true;
+            kt.findNeighbors(kt.root, a, 1f, lb, 0);
+            for (Boid c : lb) {
+                if (!isBoidInAngle(a, c)) {
+                    lb.remove(c);
+                }
+            }
+            ArrayList<Boid> lb2 = getBoidsInFieldOfView(a);
+            if (lb2.size() != lb.size()) {
+                t = false;
+            } else {
+                for (Boid c : lb) {
+                    if (!lb2.contains(c)) {
+                        t = false;
+                    }
+                }
+            }
+            System.err.println(t);
+        }
+
+        // end
         instancedNode.instance();
     }
     
@@ -295,13 +319,13 @@ public class Flock {
      */ 
     private List<Boid> createBoids(int boidCount) {
         List<Boid> boidList = new ArrayList<Boid>();
-        Boid[] boids = new Boid[boidCount];
+        boidsV3 = new Boid[boidCount];
         for(int i=0; i<boidCount; ++i) {
             Boid newBoid = new Boid(createInstance());
             boidList.add(newBoid);
-            boids[i] = boidList.get(i);
+            boidsV3[i] = boidList.get(i);
         }
-        KdTree kt = new KdTree(boids);
+        /*
         Boid a = new Boid(createInstance());
         Boid boidTest = null;
         Vector3f shortestDistance = new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
@@ -314,10 +338,10 @@ public class Flock {
             }
         boidList.get(0).dFromNeighbour = shortestDistance;
         }
-        
-        kt.nearestNeighbor(a);
-        System.err.println("\n\n " + kt.nearestNeighbor(a) +
-                " \n" + boidTest.position.toString() + "\n" + a.position +"\n");
+        */
+        //kt.nearestNeighbor(a);
+        //System.err.println("\n\n " + kt.nearestNeighbor(a) +
+        //        " \n" + boidTest.position.toString() + "\n" + a.position +"\n");
         return boidList;
     }
     

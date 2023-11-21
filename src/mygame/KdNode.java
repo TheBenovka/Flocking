@@ -11,8 +11,7 @@ import java.util.List;
  * @author Benjamin
  */
 public class KdNode {
-    public final Boid boid;
-    KdNode parent = null;
+    public Boid boid;
     KdNode leftChild = null;
     KdNode rightChild = null;
     final int numDims = 3;		

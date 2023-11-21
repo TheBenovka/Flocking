@@ -51,13 +51,13 @@ public class KdTree{
 
     //saiudhbf
     
-    private int m3Partition(Boid[] boids, int p, int r, int depth) {
+    private int m3Partition(Boid[] boids, int p, int r, int dim) {
 	// Source: Lecture "Folien_4_Suchen_Sortiern" p.14
-	m3(boids, p, r, depth);
-        float pivot = boids[r].position.get(depth);
+	m3(boids, p, r, dim);
+        float pivot = boids[r].position.get(dim);
 	int i = p-1;
 	for (int j = p; j < r; ++j) {
-            if (boids[j].position.get(depth) <= pivot) {
+            if (boids[j].position.get(dim) <= pivot) {
 		++i;			
                 swap(boids,i,j);
             }
@@ -72,30 +72,29 @@ public class KdTree{
 	boids[b] = temp;
     }
 
-    private void m3(Boid[] boids, int p, int r, int depth) {
+    private void m3(Boid[] boids, int p, int r, int dim) {
 	int m = (r+p)/2;
-	if (boids[m].position.get(depth) < boids[p].position.get(depth)) {
+	if (boids[m].position.get(dim) < boids[p].position.get(dim)) {
 		swap(boids,m,p);
 	}
-	if (boids[r].position.get(depth) < boids[p].position.get(depth)) {
+	if (boids[r].position.get(dim) < boids[p].position.get(dim)) {
 		swap(boids,r,p);
 	}
-	if (boids[m].position.get(depth) < boids[r].position.get(depth)) {
+	if (boids[m].position.get(dim) < boids[r].position.get(dim)) {
 		swap(boids,r,m);
 	}
     }
 
-    private void m3QuickSort(Boid[] boids, int p, int r, int depth) {
+    private void m3QuickSort(Boid[] boids, int p, int r, int dim) {
 	// here comes the algorithm from the lecture
 	if (p < r) {
-            int s = m3Partition(boids,p,r,depth);
-            m3QuickSort(boids, p, s-1, depth);  
-            m3QuickSort(boids, s+1, r, depth);
+            int s = m3Partition(boids,p,r,dim);
+            m3QuickSort(boids, p, s-1, dim);  
+            m3QuickSort(boids, s+1, r, dim);
 	}
     }
     
     public void bulkInsert(Boid[] data) {
-        // Sort by the first dimension initially
         root = bulkInsert(data, 0, data.length - 1, 0);
     }
 
@@ -103,14 +102,14 @@ public class KdTree{
         if (start > end) {
             return null;
         }
-        m3(data, start, end, depth%numDims);
+        m3QuickSort(data, start, end, depth%numDims);
         int mid = (start + end) / 2;
         KdNode newNode = new KdNode(data[mid]);
         // getting the perfect childpair
         // delegate the work to the leafs
         newNode.leftChild = bulkInsert(data, start, mid - 1, (depth + 1) % numDims);
         newNode.rightChild = bulkInsert(data, mid + 1, end, (depth + 1) % numDims);
-
+        
         return newNode;
     }
     
@@ -119,27 +118,30 @@ public class KdTree{
     }
 
    
-    private KdNode nearestNeighbor(KdNode root, Boid target, int depth) {
-        if (root == null) {
+    //Extra parameter for bounding box
+    private KdNode nearestNeighbor(KdNode node, Boid target, int depth) {
+        if (node == null) {
             return null;
         }
         KdNode nextBranch, otherBranch; 
-        if (target.position.get(depth % numDims) < root.boid.position.get(depth % numDims)) {
-            nextBranch = root.leftChild;
-            otherBranch = root.rightChild;
+        if (target.position.get(depth % numDims) < node.boid.position.get(depth % numDims)) {
+            nextBranch = node.leftChild;
+            otherBranch = node.rightChild;
         } else {
-            nextBranch = root.rightChild;
-            otherBranch = root.leftChild;
+            nextBranch = node.rightChild;
+            otherBranch = node.leftChild;
         }
+        // hier ist der fehler er darf nicht aufs ende gehen
+        // Muss vorher auf bounding box prüfen! 
         KdNode temp = nearestNeighbor(nextBranch, target, (depth + 1) % numDims);
-        KdNode best = closest(temp, root, target);
-        float radiusSquared = target.position.distanceSquared(best.boid.position);
-        float dist = target.position.get(depth % numDims) - root.boid.position.get(depth % numDims);
+        KdNode best = closest(temp, node, target);
+        float distSquared = target.position.distanceSquared(best.boid.position);
+        float dist = target.position.get(depth % numDims) - node.boid.position.get(depth % numDims);
 
-        // if (radiusSquared >= dist * dist) {
+        if (distSquared >= dist * dist) {
             temp = nearestNeighbor(otherBranch, target, (depth + 1) % numDims);
             best = closest(temp, best, target);
-        //}
+        }
     return best;
     }
 
@@ -165,5 +167,99 @@ public class KdTree{
     public String toString() {
         return printTree(root,0);
     }
+ /*   
+    public List<Boid> kNearestNeighbors(Boid target, float radius) {
+    List<Boid> neighbors = new ArrayList<>();
+    findNeighbors(root, target, radius * radius, neighbors, 0);
+    return neighbors;
+    }
+*/
+    
+public void reinsertBoid(Boid boid) {
+    root = delete(root, boid, 0);
+    // Position  updaten
+    root = insert(root, boid, 0, null);
+}
+
+private KdNode delete(KdNode node, Boid boid, int depth) {
+    if (node == null) {
+        return null;
+    }
+
+    //int axis = node.depth % numDims;
+
+    if (node.boid.equals(boid)) {
+        if (node.rightChild != null) {
+            KdNode minNode = findMin(node.rightChild, depth);
+            node.boid = minNode.boid;
+            node.rightChild = delete(node.rightChild, minNode.boid,(depth+1)%numDims);
+        } else if (node.leftChild != null) {
+            KdNode minNode = findMin(node.leftChild, (depth+1)%numDims);
+            node.boid = minNode.boid;
+            node.rightChild = delete(node.leftChild, minNode.boid, (depth +1 )%numDims);
+            node.leftChild = null;
+        } else {
+            return null;
+        }
+    } else if (boid.position.get(depth) < node.boid.position.get(depth)) {
+        node.leftChild = delete(node.leftChild, boid, (depth+1)%numDims);
+    } else {
+        node.rightChild = delete(node.rightChild, boid, (depth+1)%numDims);
+    }
+
+    return node;
+}
+
+private KdNode insert(KdNode node, Boid boid, int depth, KdNode parent) {
+    if (node == null) {
+        return new KdNode(boid);
+    }
+
+    int axis = depth % numDims;
+
+    if (boid.position.get(axis) < node.boid.position.get(axis)) {
+        node.leftChild = insert(node.leftChild, boid, depth + 1, node);
+    } else {
+        node.rightChild = insert(node.rightChild, boid, depth + 1, node);
+    }
+
+    return node;
+}
+
+private KdNode findMin(KdNode node, int axis) {
+    while (node != null && node.leftChild != null) {
+        node = node.leftChild;
+    }
+    return node;
+}    
+    
+public void findNeighbors(KdNode node, Boid target, float radiusSquared, List<Boid> neighbors, int depth) {
+    if (node == null) {
+        return;
+    }
+
+    float distSquared = node.boid.position.distanceSquared(target.position);
+
+    if (distSquared <= radiusSquared && node.boid != target) {
+        neighbors.add(node.boid);
+    }
+
+    int axis = depth % numDims;
+
+    if (target.position.get(axis) < node.boid.position.get(axis)) {
+        findNeighbors(node.leftChild, target, radiusSquared, neighbors, depth + 1);
+    } else {
+        findNeighbors(node.rightChild, target, radiusSquared, neighbors, depth + 1);
+    }
+
+    //Bounding Box prüfen 
+    if (Math.abs(target.position.get(axis) - node.boid.position.get(axis)) * Math.abs(target.position.get(axis) - node.boid.position.get(axis)) <= radiusSquared) {
+        if (target.position.get(axis) < node.boid.position.get(axis)) {
+            findNeighbors(node.rightChild, target, radiusSquared, neighbors, depth + 1);
+        } else {
+            findNeighbors(node.leftChild, target, radiusSquared, neighbors, depth + 1);
+        }
+    }
+}
 }
 // != self, old distance > smaller
