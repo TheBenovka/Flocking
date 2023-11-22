@@ -12,6 +12,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.instancing.InstancedNode;
 import java.util.ArrayList;
 import java.util.List;
+
+//Louis
+import com.jme3.scene.Spatial;
 /**
  * This class controls and manages all boids within a flock (swarm)
  * @author philipp lensing
@@ -71,6 +74,11 @@ public class Flock {
         }
         centroid = vecSum.divide(boids.size());
         
+    }
+    
+    
+    private void calcNextCentroidWithVector(){
+        float [][][] threeDimensionalArray = new float [1][2][3];
     }
 
     /**
@@ -206,10 +214,10 @@ public class Flock {
             //Vector3f cohesion = getBoidCohesion(boid);
             setBoidCohesion(boid);  
             setBoidSeperation(boid);
-            setBoidAlignement(boid);
+            //setBoidAlignement(boid);
             //boid.setA();
             //Vector3f netAccelarationForBoid = boid.position.negate(); // accelaration=boid.position.negate()) means that there is a permanent acceleration towards the origin of the coordinate system (0,0,0) which decreases if the distance of the boid to origin decreases.
-            
+
             Vector3f netAccelarationForBoid = boid.alignement.add(boid.seperation).add(boid.cohesion.mult(1f));
             //System.err.println(netAccelarationForBoid);
             boid.update(netAccelarationForBoid, dtime); 
@@ -240,5 +248,8 @@ public class Flock {
         geometry.setMaterial(boidMaterial);
         instancedNode.attachChild(geometry);
         return geometry;
-    }      
+    }
+
 }
+
+
