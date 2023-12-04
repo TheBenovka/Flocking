@@ -12,12 +12,18 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.instancing.InstancedNode;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 /**
  * This class controls and manages all boids within a flock (swarm)
  * @author philipp lensing
  */
 public class Flock {
-    
+    static final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
     private final Material boidMaterial;
     private final Mesh boidMesh;
     private final Node scene;
@@ -25,14 +31,14 @@ public class Flock {
     private KdTree boidTree;
     private Boid[] boidsV3;
     private Vector3f centroid;
-    
+
     /**
      * MADE BY BENI!
      * TODO: Dimensions must be tested...
      * STUPID IDEA FOR LATER: Getting min and max dist. from boids to center
      * and calculate the radius
      */
-    private final float radius = 1f;
+    private final float radius = 0.25f;
 
     /**
      * MADE BY BENI!
@@ -194,16 +200,16 @@ public class Flock {
         s = s.mult(0.2f);
         c = c.mult(1f);
         // collision force
-        Vector3f d = new Vector3f();
-        if (boid.position.length() > 5){
+        //Vector3f d = new Vector3f();
+        //if (boid.position.length() > 5){
             //d = boid.position.mult(FastMath.pow((boid.position.length()-1f),11f)*(-0.000001f));
-        }
-        Vector3f fullForce = (a.add(c).add(s).add(d)).mult(10f/10f);
-        if (boid.position.length() > 10){
+        //}
+        Vector3f fullForce = (a.add(c).add(s));
+       // if (boid.position.length() > 10){
             //d = boid.position.mult(FastMath.pow((boid.position.length()-1f),11f)*(-0.000001f));
             //fullForce = boid.position.negate();
-        }
-        return fullForce.length() > 3 ? fullForce.normalize().mult(3f) : fullForce;
+        //}
+        return fullForce.length() > 5 ? fullForce.normalize().mult(5f) : fullForce;
     }
     
     /**
@@ -214,18 +220,60 @@ public class Flock {
         // Maybe building the tree new
         //if (boidTree.depth) {
         //}
+ long t, e = 0;
+        t = System.currentTimeMillis();
         calcNextCentroid();
-        for(Boid boid : boidsV3) {
-            setBoidCohesion(boid);  
-            setBoidSeperation(boid);
-            setBoidAlignementV2(boid);
 
-            Vector3f netAccelarationForBoid = getForce(boid.cohesion,
-                    boid.seperation, boid.alignement, boid);
-            boidTree.delete(boid);
-            boid.update(netAccelarationForBoid.mult(0.5f), dtime); 
-            boidTree.insert(boid);
+        List<Callable<Void>> tasks = new ArrayList<>();
+        
+  /*
+        for (Boid boid : boidsV3) {
+            
+         
+                boidTree.delete(boid);
+                //if (reBuildCount % 2 == 0) {
+                setBoidCohesion(boid);
+                setBoidSeperation(boid);
+                setBoidAlignementV2(boid); 
+                //}
+                Vector3f netAccelarationForBoid = getForce(boid.cohesion, boid.seperation, boid.alignement, boid);
+                boid.update(netAccelarationForBoid.mult(0.5f), dtime);
+                boidTree.insert(boid);
+               // return null;
+               
+         
+         }
+        reBuildCount++;
+   */
+        for (Boid boid : boidsV3) {
+            tasks.add(() -> {
+                boidTree.delete(boid);
+                setBoidCohesion(boid);
+                setBoidSeperation(boid);
+                setBoidAlignementV2(boid);
+
+                Vector3f netAccelarationForBoid = getForce(boid.cohesion, boid.seperation, boid.alignement, boid);
+
+                boid.update(netAccelarationForBoid.mult(0.5f), dtime);
+                boidTree.insert(boid);
+                return null;
+            });
         }
+
+        try {
+            // Execute all tasks using the executor service
+            List<Future<Void>> futures = executor.invokeAll(tasks);
+
+            // Wait for all tasks to complete
+            for (Future<Void> future : futures) {
+                future.get();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        //boidTree.bulkInsert(boidsV3);
+        e = System.currentTimeMillis() - t;
+        System.err.println(e);
     }
 
     private void createBoids(int boidCount) {       
@@ -235,6 +283,11 @@ public class Flock {
             boidsV3[i] = newBoid;
         } 
         boidTree = new KdTree(boidsV3);
+    }
+    
+    public void destroy(){
+    executor.shutdownNow();
+    
     }
     
     /**

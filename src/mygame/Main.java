@@ -29,11 +29,12 @@ import com.jme3.scene.shape.Box;
 public class Main extends SimpleApplication {
 
     private Flock flock;
-    private final int boidCount = 4000;
+    public static final int boidCount = 30000;
     
     public static void main(String[] args) {
         Main app = new Main();
         app.start();
+        
     }
 
     @Override
@@ -57,6 +58,11 @@ public class Main extends SimpleApplication {
         flock.update(tpf); // called once per frame
     }
 
+    @Override
+    public void finalize() {
+        Flock.executor.shutdown();
+    }
+    
     @Override
     public void simpleRender(RenderManager rm) {
         // add here custom rendering stuff if needed

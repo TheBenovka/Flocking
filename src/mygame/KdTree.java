@@ -6,7 +6,8 @@ import java.util.List;
 /**
  * KD Tree implementation for the Boids.
  *
- * @author Benjamin Should handle/manage the nodes (traversing, reinsert, etc)
+ * @author BENJAMIN SCHWAB
+ * Should handle/manage the nodes (traversing, reinsert, etc)
  */
 public class KdTree {
 
@@ -199,47 +200,58 @@ public class KdTree {
         return node;
     }
 
-    public ArrayList<Boid> getKNN(Boid target, float diameter) {
+    // Basic Idea From:
+    // https://github.com/tzaeschke/tinspin-indexes/blob/master/src/main/java/org/tinspin/index/kdtree/Node.java
+    public ArrayList<Boid> getKNN(Boid target, float radius) {
         ArrayList<Boid> bl = new ArrayList<>();
-        KNN(root, target, diameter * diameter, bl, 0);
+        Integer k = 0;
+        KNN(root, target, bl, 0, radius, k);
         return bl;
     }
 
-    private void KNN(KdNode node, Boid target, float radiusSquared, List<Boid> neighbors, int depth) {
+    private void KNN(KdNode node, Boid target, List<Boid> neighbors, int depth, float maxRange, Integer k) {
         if (node == null) {
             return;
         }
-
-        float distSquared = node.boid.position.distanceSquared(target.position);
-
-        if (distSquared <= radiusSquared && node.boid != target) {
-            neighbors.add(node.boid);
-        }
-
-        int axis = depth % numDims;
-
-        if (target.position.get(axis) < node.boid.position.get(axis)) {
-            KNN(node.leftChild, target, radiusSquared, neighbors, depth + 1);
-        } else {
-            KNN(node.rightChild, target, radiusSquared, neighbors, depth + 1);
-        }
-
-        //Bounding Box prüfen 
-        if (Math.abs(target.position.get(axis) - node.boid.position.get(axis)) * Math.abs(target.position.get(axis) - node.boid.position.get(axis)) <= radiusSquared) {
-            if (target.position.get(axis) < node.boid.position.get(axis)) {
-                KNN(node.rightChild, target, radiusSquared, neighbors, depth + 1);
-            } else {
-                KNN(node.leftChild, target, radiusSquared, neighbors, depth + 1);
+   
+        if(node.leftChild != null && target.position.get(depth) < node.boid.position.get(depth) 
+                || node.rightChild == null) {
+                KNN(node.leftChild, target,neighbors, (depth+1)%3, maxRange,k);
+            if (target.position.get(depth) + maxRange >= node.boid.position.get(depth)) {
+                addCandidate(node, target, neighbors, maxRange,k);
+                if (node.rightChild != null) {
+                    KNN(node.rightChild, target,  neighbors, (depth+1)%3, maxRange,k);
+                }
             }
+        } else if (node.rightChild != null) {
+            KNN(node.rightChild, target, neighbors, (depth+1)%3, maxRange,k);
+            if (target.position.get(depth) <= node.boid.position.get(depth) + maxRange) {
+                addCandidate(node, target, neighbors, maxRange,k);
+                if (node.leftChild != null) {
+                    KNN(node.leftChild, target,  neighbors, (depth+1)%3, maxRange,k);
+                }
+            }
+        } else {
+            addCandidate(node, target, neighbors, maxRange,k);
         }
     }
 
+    private void addCandidate(KdNode node, Boid target, List<Boid> neighbors, float maxRange, Integer k) {
+        float dist = node.boid.position.distanceSquared(target.position);
+        if (k > 10) {
+            return;
+        }
+        if (maxRange <= dist) {
+            neighbors.add(node.boid);
+            ++k;
+        }  
+    }
+    
     public int depth(KdNode node) {
         if (node == null) {
             return -1; // null node has depth -1
         } else {
             return 1 + Math.max(depth(node.leftChild), depth(node.rightChild));
         }
-    }
+    }   
 }
-// != self, old distance > smaller
