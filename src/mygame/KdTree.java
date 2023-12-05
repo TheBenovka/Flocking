@@ -1,5 +1,6 @@
 package mygame;
 
+import com.jme3.math.Vector3f;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,10 +116,10 @@ public class KdTree {
     }
 
     private KdNode closest(KdNode n0, KdNode n1, Boid target) {
-        if (n0 == null) {
+        if (n0 == null || n0.boid == target) {
             return n1;
         }
-        if (n1 == null) {
+        if (n1 == null|| n1.boid == target) {
             return n0;
         }
 
@@ -204,46 +205,41 @@ public class KdTree {
     // https://github.com/tzaeschke/tinspin-indexes/blob/master/src/main/java/org/tinspin/index/kdtree/Node.java
     public ArrayList<Boid> getKNN(Boid target, float radius) {
         ArrayList<Boid> bl = new ArrayList<>();
-        Integer k = 0;
-        KNN(root, target, bl, 0, radius, k);
+        KNN(root, target, bl, 0, radius);
         return bl;
     }
 
-    private void KNN(KdNode node, Boid target, List<Boid> neighbors, int depth, float maxRange, Integer k) {
+    private void KNN(KdNode node, Boid target, List<Boid> neighbors, int depth, float maxRange) {
         if (node == null) {
             return;
         }
    
         if(node.leftChild != null && target.position.get(depth) < node.boid.position.get(depth) 
                 || node.rightChild == null) {
-                KNN(node.leftChild, target,neighbors, (depth+1)%3, maxRange,k);
+                KNN(node.leftChild, target,neighbors, (depth+1)%3, maxRange);
             if (target.position.get(depth) + maxRange >= node.boid.position.get(depth)) {
-                addCandidate(node, target, neighbors, maxRange,k);
+                addCandidate(node, target, neighbors, maxRange);
                 if (node.rightChild != null) {
-                    KNN(node.rightChild, target,  neighbors, (depth+1)%3, maxRange,k);
+                    KNN(node.rightChild, target,  neighbors, (depth+1)%3, maxRange);
                 }
             }
         } else if (node.rightChild != null) {
-            KNN(node.rightChild, target, neighbors, (depth+1)%3, maxRange,k);
+            KNN(node.rightChild, target, neighbors, (depth+1)%3, maxRange);
             if (target.position.get(depth) <= node.boid.position.get(depth) + maxRange) {
-                addCandidate(node, target, neighbors, maxRange,k);
+                addCandidate(node, target, neighbors, maxRange);
                 if (node.leftChild != null) {
-                    KNN(node.leftChild, target,  neighbors, (depth+1)%3, maxRange,k);
+                    KNN(node.leftChild, target,  neighbors, (depth+1)%3, maxRange);
                 }
             }
         } else {
-            addCandidate(node, target, neighbors, maxRange,k);
+            addCandidate(node, target, neighbors, maxRange);
         }
     }
 
-    private void addCandidate(KdNode node, Boid target, List<Boid> neighbors, float maxRange, Integer k) {
+    private void addCandidate(KdNode node, Boid target, List<Boid> neighbors, float maxRange) {
         float dist = node.boid.position.distanceSquared(target.position);
-        if (k > 10) {
-            return;
-        }
         if (maxRange <= dist) {
             neighbors.add(node.boid);
-            ++k;
         }  
     }
     

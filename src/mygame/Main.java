@@ -27,9 +27,9 @@ import com.jme3.scene.shape.Box;
  */
 
 public class Main extends SimpleApplication {
-
+    
     private Flock flock;
-    public static final int boidCount = 30000;
+    public static final int boidCount = 12000;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -57,10 +57,11 @@ public class Main extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         flock.update(tpf); // called once per frame
     }
-
+    
     @Override
-    public void finalize() {
-        Flock.executor.shutdown();
+    public void stop() {
+        super.stop();
+        Flock.executor.shutdownNow();
     }
     
     @Override

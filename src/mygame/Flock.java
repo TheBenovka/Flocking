@@ -38,7 +38,7 @@ public class Flock {
      * STUPID IDEA FOR LATER: Getting min and max dist. from boids to center
      * and calculate the radius
      */
-    private final float radius = 0.25f;
+    private final float radius = 0.3f;
 
     /**
      * MADE BY BENI!
@@ -95,6 +95,7 @@ public class Flock {
      */
     public void setBoidDirectionFromNearestNeighbour(Boid boid) {
         Boid n = boidTree.NN(boid).boid; 
+        //System.err.println(boid.position.subtract(n.position));
         boid.dFromNeighbour = (n == null) ? Vector3f.ZERO : boid.position.subtract(n.position);
     }
     
@@ -217,34 +218,10 @@ public class Flock {
      * @param dtime determines the elapsed time in seconds (floating-point) between two consecutive frames
      */
     public void update(float dtime) {
-        // Maybe building the tree new
-        //if (boidTree.depth) {
-        //}
- long t, e = 0;
-        t = System.currentTimeMillis();
         calcNextCentroid();
 
         List<Callable<Void>> tasks = new ArrayList<>();
         
-  /*
-        for (Boid boid : boidsV3) {
-            
-         
-                boidTree.delete(boid);
-                //if (reBuildCount % 2 == 0) {
-                setBoidCohesion(boid);
-                setBoidSeperation(boid);
-                setBoidAlignementV2(boid); 
-                //}
-                Vector3f netAccelarationForBoid = getForce(boid.cohesion, boid.seperation, boid.alignement, boid);
-                boid.update(netAccelarationForBoid.mult(0.5f), dtime);
-                boidTree.insert(boid);
-               // return null;
-               
-         
-         }
-        reBuildCount++;
-   */
         for (Boid boid : boidsV3) {
             tasks.add(() -> {
                 boidTree.delete(boid);
@@ -272,10 +249,8 @@ public class Flock {
             ex.printStackTrace();
         }
         //boidTree.bulkInsert(boidsV3);
-        e = System.currentTimeMillis() - t;
-        System.err.println(e);
     }
-
+    
     private void createBoids(int boidCount) {       
         boidsV3 = new Boid[boidCount];
         for(int i=0; i<boidCount; ++i) {
@@ -283,11 +258,6 @@ public class Flock {
             boidsV3[i] = newBoid;
         } 
         boidTree = new KdTree(boidsV3);
-    }
-    
-    public void destroy(){
-    executor.shutdownNow();
-    
     }
     
     /**
