@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package mygame;
+import static Util.Geo.getFirstGeometry;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
@@ -29,9 +30,9 @@ import com.jme3.scene.Spatial;
  */
 public class Flock {
     static final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-
+    private final Spatial boidSpatial;
     private final Material boidMaterial;
-    private final Mesh boidMesh;
+    //private final Mesh boidMesh;
     private final Node scene;
     private final InstancedNode instancedNode;
     private KdTree boidTree;
@@ -82,11 +83,6 @@ public class Flock {
             vecSum = vecSum.add(boid.position);
         }
         centroid = vecSum.divide(boidsV3.length);
-    }
-    
-    
-    private void calcNextCentroidWithVector(){
-        float [][][] threeDimensionalArray = new float [1][2][3];
     }
 
     /**
@@ -187,8 +183,8 @@ public class Flock {
      * @param boidMesh reference mesh (geometric model) which should be used for a single boid.
      * @param boidMaterial the material controls the visual appearance (e. g. color or reflective behavior) of the surface of the boid model.
      */
-    public Flock( Node scene, int boidCount, Mesh boidMesh, Material boidMaterial ) {
-        this.boidMesh = boidMesh;
+    public Flock( Node scene, int boidCount, Spatial boidSpatial/*Mesh boidMesh*/, Material boidMaterial ) {
+        this.boidSpatial = boidSpatial;
         this.boidMaterial = boidMaterial;
         this.scene = scene;
         
@@ -198,7 +194,7 @@ public class Flock {
         this.createBoids(boidCount);
         instancedNode.instance();
     }
-    
+            
     /**
      * MADE BY BENI!
      * @param c - cohesion force of the boid
@@ -288,12 +284,11 @@ public class Flock {
      * @return The instanced geometry attached to the scene graph
      */
     private Geometry createInstance() {
-        Geometry geometry = new Geometry("boid", boidMesh);
+        Geometry geometry = getFirstGeometry(boidSpatial.clone());
         geometry.setMaterial(boidMaterial);
         instancedNode.attachChild(geometry);
         return geometry;
     }
-
 }
 
 

@@ -21,6 +21,7 @@ import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import com.jme3.material.Material;
 import com.jme3.scene.Spatial;
+import com.jme3.texture.Texture;
 import java.util.Random;
 
 //Imports fuer den Fullscreen
@@ -103,17 +104,17 @@ public class Main extends SimpleApplication {
         sun.setDirection(new Vector3f(-.5f,-.5f,-.5f).normalizeLocal());
         rootNode.addLight(sun);
         
-        Spatial raumschiff = assetManager.loadModel("Spaceship/spaceship.j3o");
+        Spatial raumschiff = assetManager.loadModel("Spaceship/raumschiff.j3o");
         Material raumschiffMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); // the surface material for the geometric boid model.
         raumschiffMaterial.setColor("Color", ColorRGBA.Magenta);
-        
-        Mesh mesh = new Box(0.01f, 0.01f, 0.03f); // the geometric model of one boid. Here a cube of size=(x:0.01,y:0.01,z:0.03)        
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); // the surface material for the geometric boid model.
-        mat.setColor("Color", ColorRGBA.Pink);
-        
-        
+        float scale = 0.04f;
+        raumschiff.scale(scale);
+        Material mat0 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        Texture tex0 = assetManager.loadTexture("Textures/metal.jpg");
+        mat0.setTexture("ColorMap", tex0);
+
         // instantiation of the flock
-        flock = new Flock(rootNode, boidCount, mesh, raumschiffMaterial ); //mesh      
+        flock = new Flock(rootNode, boidCount, raumschiff, mat0 ); //mesh 
         // camera rotation is controlled via mouse movement while the position is controlled via wasd-keys
         flyCam.setEnabled(true);
         flyCam.setMoveSpeed(30);
