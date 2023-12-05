@@ -1,11 +1,33 @@
 package mygame;
 
+//Louis: Imports fuer Background
+import Background.PlanetEarth;
+import Background.randomGroßePlanets;
+import Background.PlanetSystemRinge;
+import Background.Planets;
+import Background.SkyBox;
+import Background.randomPlanets;
+import Background.SpaceStation;
+
 import com.jme3.app.SimpleApplication;
-import com.jme3.material.Material;
+import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.shape.Box;
+import com.jme3.system.AppSettings;
+import com.jme3.material.Material;
+import com.jme3.scene.Spatial;
+import java.util.Random;
+
+//Imports fuer den Fullscreen
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.DisplayMode;
+
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
@@ -29,32 +51,97 @@ import com.jme3.scene.shape.Box;
 public class Main extends SimpleApplication {
     
     private Flock flock;
-    public static final int boidCount = 20000;
+
+    public static final int boidCount = 2000;
+
+    
+    /**
+    * @author Louis
+    * Quellen sind jeweils unten und in den Klassen angegeben
+    */
+    private Spatial objModel;
+    private Spatial objModel2; //legt die Anzahl der random gespawnen Planeten fest
+    private Quaternion rotation;
+    private final float rotationSpeed = 1.0f; //legt Rotations Geschwindigkeit der Planeten fest
+    private static final boolean fullscreen = true; //legt Vollbildmodus fest
+    
+    private Planets p;
+    private PlanetSystemRinge pSystemRinge;
+    private SkyBox skyBox;
+    private randomPlanets randomPlanets;
+    private randomGroßePlanets randomGroßePlanets;
+    private PlanetEarth pEarth;
+    private SpaceStation sStation;
+
     
     public static void main(String[] args) {
         Main app = new Main();
+        
+        if(fullscreen){
+            GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            DisplayMode displayMode = device.getDisplayMode();
+
+            int screenWidth = displayMode.getWidth();
+            int screenHeight = displayMode.getHeight();
+
+            AppSettings settings = new AppSettings(true);
+            settings.put("Width", screenWidth);
+            settings.put("Height", screenHeight);
+            settings.setFullscreen(true);
+
+            app.setSettings(settings);
+            app.setShowSettings(false);
+        }       
         app.start();
     }
 
     @Override
     public void simpleInitApp() {
         
-        Mesh mesh = new Box(0.01f, 0.01f, 0.03f); // the geometric model of one boid. Here a cube of size=(x:0.01,y:0.01,z:0.03)
+        DirectionalLight sun = new DirectionalLight();
+        sun.setColor(ColorRGBA.White);
+        sun.setDirection(new Vector3f(-.5f,-.5f,-.5f).normalizeLocal());
+        rootNode.addLight(sun);
         
+        Spatial raumschiff = assetManager.loadModel("Spaceship/spaceship.j3o");
+        Material raumschiffMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); // the surface material for the geometric boid model.
+        raumschiffMaterial.setColor("Color", ColorRGBA.Magenta);
+        
+        Mesh mesh = new Box(0.01f, 0.01f, 0.03f); // the geometric model of one boid. Here a cube of size=(x:0.01,y:0.01,z:0.03)        
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); // the surface material for the geometric boid model.
-        mat.setColor("Color", ColorRGBA.White);
+        mat.setColor("Color", ColorRGBA.Pink);
+        
         
         // instantiation of the flock
-        flock = new Flock(rootNode, boidCount, mesh, mat );
-        
+        flock = new Flock(rootNode, boidCount, mesh, raumschiffMaterial ); //mesh      
         // camera rotation is controlled via mouse movement while the position is controlled via wasd-keys
         flyCam.setEnabled(true);
         flyCam.setMoveSpeed(30);
-    }
+        
+        //Louis
+        p = new Planets(assetManager, rootNode);
+        pSystemRinge = new PlanetSystemRinge(assetManager, rootNode);
+        skyBox = new SkyBox(assetManager, rootNode);
+        randomPlanets = new randomPlanets(assetManager, rootNode);
+        randomGroßePlanets = new randomGroßePlanets(assetManager, rootNode);
+        pEarth = new PlanetEarth(assetManager, rootNode);
+        sStation = new SpaceStation(assetManager, rootNode);
+        
+        p.ladePlaneten(); // Lade die Planeten
+        pSystemRinge.ladePlaneten();
+        skyBox.ladeSkybox();
+        randomPlanets.spawnRandomPlanets();
+        randomGroßePlanets.spawnRandomPlanets();
+        pEarth.ladePlaneten();
+        sStation.ladePlaneten();
 
+    }
     @Override
     public void simpleUpdate(float tpf) {
         flock.update(tpf); // called once per frame
+        //pEarth.drehePlanet(tpf);
+        sStation.drehePlanet(tpf);
+        
     }
     
     @Override

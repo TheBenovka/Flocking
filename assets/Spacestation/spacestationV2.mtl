@@ -1,0 +1,338 @@
+# Blender MTL File: 'None'
+# Material Count: 27
+
+newmtl Mat
+Ns 519.841538
+Ka 0.094300 0.094300 0.094300
+Kd 1.000000 1.000000 1.000000
+Ks 0.460000 0.460000 0.460000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\sci-fi-panel1-normal-dx.png
+map_Kd -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\sci-fi-panel1-albedo.png
+map_Ns -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\sci-fi-panel1-roughness.png
+map_d -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\sci-fi-panel1-albedo.png
+
+newmtl Mat.005
+Ns 259.920762
+Ka 0.065100 0.065100 0.065100
+Kd 1.000000 1.000000 1.000000
+Ks 0.420000 0.420000 0.420000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_normal-dx.png
+map_Kd -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_albedo.png
+map_Ns -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_roughness.png
+
+newmtl Mat.006
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 1.155216 2.060000 2.060000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Mat.007
+Ns 259.920762
+Ka 0.065100 0.065100 0.065100
+Kd 1.000000 1.000000 1.000000
+Ks 0.420000 0.420000 0.420000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -2.000000 0.000000 -s 0.500000 0.500000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_normal-dx.png
+map_Kd -o -0.000000 -2.000000 0.000000 -s 0.500000 0.500000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_albedo.png
+map_Ns -o -0.000000 -2.000000 0.000000 -s 0.500000 0.500000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_roughness.png
+
+newmtl Mat.008
+Ns 42.870947
+Ka 0.130200 0.130200 0.130200
+Kd 1.000000 1.000000 1.000000
+Ks 0.620000 0.620000 0.620000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_normal.jpg
+map_Kd -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_basecolor.jpg
+map_Ns -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_roughness.jpg
+
+newmtl Mat.009
+Ns 393.966212
+Ka 0.307400 0.307400 0.307400
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -7.000000 0.000000 -s 0.142857 0.142857 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_normal-dx.png
+map_Kd -o -0.000000 -7.000000 0.000000 -s 0.142857 0.142857 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_albedo.png
+map_Ns -o -0.000000 -7.000000 0.000000 -s 0.142857 0.142857 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_roughness.png
+
+newmtl Mat.010
+Ns 259.920762
+Ka 0.065100 0.065100 0.065100
+Kd 1.000000 1.000000 1.000000
+Ks 0.420000 0.420000 0.420000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_normal-dx.png
+map_Kd -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_albedo.png
+map_Ns -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_roughness.png
+
+newmtl Mat.011
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.106200 2.708100 5.310000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Mat.012
+Ns 519.841538
+Ka 0.094300 0.094300 0.094300
+Kd 1.000000 1.000000 1.000000
+Ks 0.460000 0.460000 0.460000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\sci-fi-panel1-normal-dx.png
+map_Kd -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\sci-fi-panel1-albedo.png
+map_Ns -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\sci-fi-panel1-roughness.png
+map_d -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\sci-fi-panel1-albedo.png
+
+newmtl Mat.1
+Ns 42.870947
+Ka 0.130200 0.130200 0.130200
+Kd 1.000000 1.000000 1.000000
+Ks 0.620000 0.620000 0.620000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_normal.jpg
+map_Kd -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_basecolor.jpg
+map_Ns -o 0.000000 -1.000000 0.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_roughness.jpg
+
+newmtl Mat.1.001
+Ns 42.870947
+Ka 0.130200 0.130200 0.130200
+Kd 1.000000 1.000000 1.000000
+Ks 0.620000 0.620000 0.620000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -9.000000 0.000000 -s 0.111111 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_normal.jpg
+map_Kd -o -0.000000 -9.000000 0.000000 -s 0.111111 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_basecolor.jpg
+map_Ns -o -0.000000 -9.000000 0.000000 -s 0.111111 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_roughness.jpg
+
+newmtl Mat.1.10
+Ns 42.870947
+Ka 0.130200 0.130200 0.130200
+Kd 1.000000 1.000000 1.000000
+Ks 0.620000 0.620000 0.620000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -9.000000 0.000000 -s 0.111111 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_normal.jpg
+map_Kd -o -0.000000 -9.000000 0.000000 -s 0.111111 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_basecolor.jpg
+map_Ns -o -0.000000 -9.000000 0.000000 -s 0.111111 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_roughness.jpg
+
+newmtl Mat.1.10.002
+Ns 42.870947
+Ka 0.130200 0.130200 0.130200
+Kd 1.000000 1.000000 1.000000
+Ks 0.620000 0.620000 0.620000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_normal.jpg
+map_Kd -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_basecolor.jpg
+map_Ns -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_roughness.jpg
+
+newmtl Mat.1.10.1
+Ns 42.870947
+Ka 0.130200 0.130200 0.130200
+Kd 1.000000 1.000000 1.000000
+Ks 0.620000 0.620000 0.620000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_normal.jpg
+map_Kd -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_basecolor.jpg
+map_Ns -o -0.000000 -8.000000 0.000000 -s 0.125000 0.125000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\Sci-Fi_Wall_014_roughness.jpg
+
+newmtl Mat.2
+Ns 393.966212
+Ka 0.307400 0.307400 0.307400
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -7.000000 0.000000 -s 0.142857 0.142857 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_normal-dx.png
+map_Kd -o -0.000000 -7.000000 0.000000 -s 0.142857 0.142857 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_albedo.png
+map_Ns -o -0.000000 -7.000000 0.000000 -s 0.142857 0.142857 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_roughness.png
+
+newmtl Mat.2.001
+Ns 393.966212
+Ka 0.307400 0.307400 0.307400
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -3.000000 0.000000 -s 0.333333 0.333333 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_normal-dx.png
+map_Kd -o -0.000000 -3.000000 0.000000 -s 0.333333 0.333333 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_albedo.png
+map_Ns -o -0.000000 -3.000000 0.000000 -s 0.333333 0.333333 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_roughness.png
+
+newmtl Mat.2.15
+Ns 393.966212
+Ka 0.307400 0.307400 0.307400
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -3.000000 0.000000 -s 0.333333 0.333333 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_normal-dx.png
+map_Kd -o -0.000000 -3.000000 0.000000 -s 0.333333 0.333333 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_albedo.png
+map_Ns -o -0.000000 -3.000000 0.000000 -s 0.333333 0.333333 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_roughness.png
+
+newmtl Mat.2.15.003
+Ns 393.966212
+Ka 0.307400 0.307400 0.307400
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -4.000000 0.000000 -s 0.250000 0.250000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_normal-dx.png
+map_Kd -o -0.000000 -4.000000 0.000000 -s 0.250000 0.250000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_albedo.png
+map_Ns -o -0.000000 -4.000000 0.000000 -s 0.250000 0.250000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_roughness.png
+
+newmtl Mat.2.15.004
+Ns 393.966212
+Ka 0.307400 0.307400 0.307400
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -9.000000 0.000000 -s 0.045455 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_normal-dx.png
+map_Kd -o -0.000000 -9.000000 0.000000 -s 0.045455 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_albedo.png
+map_Ns -o -0.000000 -9.000000 0.000000 -s 0.045455 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_roughness.png
+
+newmtl Mat.2.15.1
+Ns 393.966212
+Ka 0.307400 0.307400 0.307400
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -4.000000 0.000000 -s 0.250000 0.250000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_normal-dx.png
+map_Kd -o -0.000000 -4.000000 0.000000 -s 0.250000 0.250000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_albedo.png
+map_Ns -o -0.000000 -4.000000 0.000000 -s 0.250000 0.250000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_roughness.png
+
+newmtl Mat.2.15.2
+Ns 393.966212
+Ka 0.307400 0.307400 0.307400
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -9.000000 0.000000 -s 0.045455 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_normal-dx.png
+map_Kd -o -0.000000 -9.000000 0.000000 -s 0.045455 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_albedo.png
+map_Ns -o -0.000000 -9.000000 0.000000 -s 0.045455 0.111111 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\filthy-space-panels_roughness.png
+
+newmtl Mat.3
+Ns 259.920762
+Ka 0.065100 0.065100 0.065100
+Kd 1.000000 1.000000 1.000000
+Ks 0.420000 0.420000 0.420000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -2.000000 0.000000 -s 0.500000 0.500000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_normal-dx.png
+map_Kd -o -0.000000 -2.000000 0.000000 -s 0.500000 0.500000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_albedo.png
+map_Ns -o -0.000000 -2.000000 0.000000 -s 0.500000 0.500000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_roughness.png
+
+newmtl Mat.3.001
+Ns 259.920762
+Ka 0.065100 0.065100 0.065100
+Kd 1.000000 1.000000 1.000000
+Ks 0.420000 0.420000 0.420000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -5.000000 0.000000 -s 0.200000 0.200000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_normal-dx.png
+map_Kd -o -0.000000 -5.000000 0.000000 -s 0.200000 0.200000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_albedo.png
+map_Ns -o -0.000000 -5.000000 0.000000 -s 0.200000 0.200000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_roughness.png
+
+newmtl Mat.3.71
+Ns 259.920762
+Ka 0.065100 0.065100 0.065100
+Kd 1.000000 1.000000 1.000000
+Ks 0.420000 0.420000 0.420000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump -o -0.000000 -5.000000 0.000000 -s 0.200000 0.200000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_normal-dx.png
+map_Kd -o -0.000000 -5.000000 0.000000 -s 0.200000 0.200000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_albedo.png
+map_Ns -o -0.000000 -5.000000 0.000000 -s 0.200000 0.200000 1.000000 C:\\Users\\PC\\AppData\\Roaming\\Maxon\\Maxon Cinema 4D R21_64C2B3BD\\tex\\space-cruiser-panels2_roughness.png
+
+newmtl Mat.4
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 1.155216 2.060000 2.060000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Mat.5
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.106200 2.708100 5.310000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl None
+Ns 500
+Ka 0.8 0.8 0.8
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2

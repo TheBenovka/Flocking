@@ -13,10 +13,16 @@ import com.jme3.scene.Node;
 import com.jme3.scene.instancing.InstancedNode;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+
+//Louis
+import com.jme3.scene.Spatial;
+
 /**
  * This class controls and manages all boids within a flock (swarm)
  * @author philipp lensing
@@ -76,6 +82,11 @@ public class Flock {
             vecSum = vecSum.add(boid.position);
         }
         centroid = vecSum.divide(boidsV3.length);
+    }
+    
+    
+    private void calcNextCentroidWithVector(){
+        float [][][] threeDimensionalArray = new float [1][2][3];
     }
 
     /**
@@ -222,6 +233,18 @@ public class Flock {
 
         List<Callable<Void>> tasks = new ArrayList<>();
         
+        for (Boid boid : boidsV3) {          
+                boidTree.delete(boid);
+                setBoidCohesion(boid);
+                setBoidSeperation(boid);
+                setBoidAlignementV2(boid);
+
+                Vector3f netAccelarationForBoid = getForce(boid.cohesion, boid.seperation, boid.alignement, boid);
+
+                boid.update(netAccelarationForBoid.mult(0.5f), dtime);
+                boidTree.insert(boid);
+        }
+        /*
         for (Boid boid : boidsV3) {
             tasks.add(() -> {
                 boidTree.delete(boid);
@@ -235,7 +258,7 @@ public class Flock {
                 boidTree.insert(boid);
                 return null;
             });
-        }
+        }*/
 
         try {
             // Execute all tasks using the executor service
@@ -269,5 +292,8 @@ public class Flock {
         geometry.setMaterial(boidMaterial);
         instancedNode.attachChild(geometry);
         return geometry;
-    }      
+    }
+
 }
+
+
