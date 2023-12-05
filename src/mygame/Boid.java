@@ -18,7 +18,7 @@ public class Boid {
     public static float spawnVolumeSize = 10.0f;
     public Vector3f position;
     public float[] positionV2;
-    public float[] positionV3;
+    public float[] velocityV2;
     public Vector3f velocity;
     private Geometry geometry;
     

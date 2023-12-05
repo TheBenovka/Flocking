@@ -121,7 +121,7 @@ public class Flock {
      */
     private boolean isBoidInAngle(Boid startBoid, Boid targetBoid) {
         Vector3f direction = targetBoid.position.subtract(startBoid.position);
-        float actAngle = direction.angleBetween(targetBoid.position);   
+        float actAngle = direction.angleBetween(targetBoid.position);  
         return actAngle >= angle;
     }
     
