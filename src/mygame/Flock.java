@@ -45,7 +45,7 @@ public class Flock {
      * STUPID IDEA FOR LATER: Getting min and max dist. from boids to center
      * and calculate the radius
      */
-    private final float radius = 0.3f;
+    private final float radius = 1f;
 
     /**
      * MADE BY BENI!
@@ -56,7 +56,7 @@ public class Flock {
      * 60° for 1 
      * 90° for 0
      */
-    private final float theta = 120; 
+    private final float theta = 60; 
     
     /**
      * MADE BY BENI!
@@ -140,11 +140,12 @@ public class Flock {
      */
     public ArrayList getBoidsInFieldOfView(Boid startBoid) {
         ArrayList<Boid> boidsInFieldOfView = boidTree.getKNN(startBoid, radius);
-        for (Boid targetBoid : boidsInFieldOfView) {
-            if (!isBoidInAngle(startBoid, targetBoid)) {
-                boidsInFieldOfView.remove(targetBoid);
-            }
-        }
+        //for (Boid targetBoid : boidsInFieldOfView) {
+        //    if (!isBoidInAngle(startBoid, targetBoid)) {
+        //       boidsInFieldOfView.remove(targetBoid);
+        //    }
+        //}
+        boidsInFieldOfView.removeIf(x -> !isBoidInAngle(startBoid, x));
         return boidsInFieldOfView;
     }   
     
@@ -206,17 +207,10 @@ public class Flock {
     private Vector3f getForce(Vector3f c, Vector3f s, Vector3f a, Boid boid) {
         a = a.mult(1f);
         s = s.mult(0.2f);
-        c = c.mult(1f);
-        // collision force
-        //Vector3f d = new Vector3f();
-        //if (boid.position.length() > 5){
-            //d = boid.position.mult(FastMath.pow((boid.position.length()-1f),11f)*(-0.000001f));
-        //}
+        c = c.mult(1.3f);
+
         Vector3f fullForce = (a.add(c).add(s));
-       // if (boid.position.length() > 10){
-            //d = boid.position.mult(FastMath.pow((boid.position.length()-1f),11f)*(-0.000001f));
-            //fullForce = boid.position.negate();
-        //}
+
         return fullForce.length() > 5 ? fullForce.normalize().mult(5f) : fullForce;
     }
     

@@ -53,7 +53,7 @@ public class Main extends SimpleApplication {
     
     private Flock flock;
 
-    public static final int boidCount = 2000;
+    public static final int boidCount = 700;
 
     
     /**
@@ -107,7 +107,7 @@ public class Main extends SimpleApplication {
         Spatial raumschiff = assetManager.loadModel("Spaceship/raumschiff.j3o");
         Material raumschiffMaterial = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"); // the surface material for the geometric boid model.
         raumschiffMaterial.setColor("Color", ColorRGBA.Magenta);
-        float scale = 0.04f;
+        float scale = 0.05f;
         raumschiff.scale(scale);
         Material mat0 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         Texture tex0 = assetManager.loadTexture("Textures/metal.jpg");
