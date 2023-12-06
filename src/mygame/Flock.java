@@ -9,7 +9,6 @@ import com.jme3.material.Material;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.instancing.InstancedNode;
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class Flock {
      * STUPID IDEA FOR LATER: Getting min and max dist. from boids to center
      * and calculate the radius
      */
-    private final float radius = 1f;
+    private final float radius = 1.8f;
 
     /**
      * MADE BY BENI!
@@ -56,7 +55,7 @@ public class Flock {
      * 60° for 1 
      * 90° for 0
      */
-    private final float theta = 60; 
+    private final float theta = 120; 
     
     /**
      * MADE BY BENI!
@@ -205,9 +204,9 @@ public class Flock {
      * @return 
      */
     private Vector3f getForce(Vector3f c, Vector3f s, Vector3f a, Boid boid) {
-        a = a.mult(1f);
-        s = s.mult(0.2f);
-        c = c.mult(1.3f);
+        a = a.mult(1.2f);
+        s = s.mult(0.5f);
+        c = c.mult(1f);
 
         Vector3f fullForce = (a.add(c).add(s));
 

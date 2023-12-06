@@ -53,7 +53,7 @@ public class Main extends SimpleApplication {
     
     private Flock flock;
 
-    public static final int boidCount = 700;
+    public static final int boidCount = 400;
 
     
     /**
